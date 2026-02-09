@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Site Settings -- Missouri Topsoil Co.{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  {% include "admin/_nav.html" %}
+
+  <h1 class="text-2xl font-bold mb-6" style="color: var(--color-primary);">Site Settings</h1>
+
+  <div class="max-w-lg bg-white rounded-lg shadow p-6">
+    <form method="POST" action="{{ url_for('admin.settings') }}" class="space-y-5">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div>
+        <label for="banner_text" class="block text-sm font-medium mb-1" style="color: var(--color-text);">
+          Banner Text
+        </label>
+        <textarea
+          id="banner_text"
+          name="banner_text"
+          rows="3"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-sm"
+        >{{ settings.banner_text or '' }}</textarea>
+        <p class="mt-1 text-xs text-gray-500">
+          This text appears as a banner across the top of the public site when active.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <input
+          type="checkbox"
+          id="banner_active"
+          name="banner_active"
+          {% if settings.banner_active %}checked{% endif %}
+          class="h-4 w-4 rounded border-gray-300 focus:ring-accent"
+          style="accent-color: var(--color-secondary);"
+        />
+        <label for="banner_active" class="text-sm font-medium" style="color: var(--color-text);">
+          Banner Active
+        </label>
+      </div>
+
+      <div class="mt-4">
+        <p class="text-sm font-medium text-charcoal/70 mb-2">Preview:</p>
+        <div id="banner-preview" class="seasonal-banner rounded-md overflow-hidden">
+          <div class="px-4 py-3 text-center">
+            <p id="preview-text" class="text-sm font-semibold"></p>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full py-2.5 rounded-md text-white font-medium text-sm transition-colors hover:opacity-90 focus-visible:opacity-90 transition-opacity"
+        style="background-color: var(--color-secondary);"
+      >
+        Save Settings
+      </button>
+    </form>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var textarea = document.getElementById('banner_text');
+  var preview = document.getElementById('banner-preview');
+  var previewText = document.getElementById('preview-text');
+  var checkbox = document.getElementById('banner_active');
+
+  function updatePreview() {
+    var text = textarea.value.trim();
+    previewText.textContent = text || '(empty)';
+    preview.style.display = checkbox.checked && text ? 'block' : 'none';
+  }
+
+  textarea.addEventListener('input', updatePreview);
+  checkbox.addEventListener('change', updatePreview);
+  updatePreview();
+})();
+</script>
+{% endblock %}

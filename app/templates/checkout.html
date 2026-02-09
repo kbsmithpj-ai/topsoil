@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}Order {{ product.name }} - Missouri Topsoil Co.{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <!-- Back link -->
+  <a href="{{ url_for('inventory.inventory') }}" class="inline-flex items-center text-sm text-secondary hover:text-primary transition-colors mb-4">
+    <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Back to Inventory
+  </a>
+
+  <!-- Page heading -->
+  <h1 class="text-3xl font-bold text-primary mb-8">Order {{ product.name }}</h1>
+
+  <!-- Product summary card -->
+  <div class="rounded-lg border border-accent/30 bg-white shadow-sm p-6 mb-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h2 class="text-xl font-semibold text-primary">{{ product.name }}</h2>
+        <span class="inline-block mt-1
+          {% if product.soil_type == 'Screened' %}badge-screened{% else %}badge-raw{% endif %}">
+          {{ product.soil_type }}
+        </span>
+      </div>
+      <div class="text-right">
+        <p class="text-2xl font-bold text-secondary">${{ "%.2f"|format(product.price_per_load) }}</p>
+        <p class="text-sm text-charcoal/60">per tandem load</p>
+      </div>
+    </div>
+    {% if product.inventory_count > 0 %}
+      <p class="mt-3 text-sm text-charcoal/70">
+        {{ product.inventory_count }} load{{ "s" if product.inventory_count != 1 else "" }} available
+      </p>
+    {% else %}
+      <p class="mt-3 text-sm font-semibold text-red-700">
+        Currently out of stock
+      </p>
+    {% endif %}
+  </div>
+
+  {% if product.inventory_count > 0 %}
+  <!-- Order form -->
+  <form method="POST" action="{{ url_for('checkout.checkout_submit', topsoil_id=product.id) }}"
+        class="space-y-6">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <!-- Full Name -->
+    <div>
+      <label for="customer_name" class="block text-sm font-medium text-charcoal mb-1">
+        Full Name
+      </label>
+      <input type="text" id="customer_name" name="customer_name"
+             value="{{ request.form.get('customer_name', '') }}"
+             required
+             autocomplete="name"
+             class="w-full rounded-md border border-charcoal/20 bg-white px-4 py-2.5 text-sm
+                    shadow-sm focus:border-secondary focus:ring-1 focus:ring-secondary
+                    outline-none transition-colors
+                    {% if errors is defined and errors.get('customer_name') %}border-red-500 ring-1 ring-red-500{% endif %}"
+             aria-invalid="{% if errors is defined and errors.get('customer_name') %}true{% else %}false{% endif %}"
+             {% if errors is defined and errors.get('customer_name') %}aria-describedby="error-customer_name"{% endif %}
+             placeholder="John Smith" />
+      {% if errors is defined and errors.get('customer_name') %}
+        <p id="error-customer_name" class="mt-1 text-sm" style="color: var(--color-error, #b91c1c);" role="alert">{{ errors.customer_name }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="customer_email" class="block text-sm font-medium text-charcoal mb-1">
+        Email Address
+      </label>
+      <input type="email" id="customer_email" name="customer_email"
+             value="{{ request.form.get('customer_email', '') }}"
+             required
+             autocomplete="email"
+             class="w-full rounded-md border border-charcoal/20 bg-white px-4 py-2.5 text-sm
+                    shadow-sm focus:border-secondary focus:ring-1 focus:ring-secondary
+                    outline-none transition-colors
+                    {% if errors is defined and errors.get('customer_email') %}border-red-500 ring-1 ring-red-500{% endif %}"
+             aria-invalid="{% if errors is defined and errors.get('customer_email') %}true{% else %}false{% endif %}"
+             {% if errors is defined and errors.get('customer_email') %}aria-describedby="error-customer_email"{% endif %}
+             placeholder="john@example.com" />
+      {% if errors is defined and errors.get('customer_email') %}
+        <p id="error-customer_email" class="mt-1 text-sm" style="color: var(--color-error, #b91c1c);" role="alert">{{ errors.customer_email }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Phone -->
+    <div>
+      <label for="customer_phone" class="block text-sm font-medium text-charcoal mb-1">
+        Phone Number
+      </label>
+      <input type="tel" id="customer_phone" name="customer_phone"
+             value="{{ request.form.get('customer_phone', '') }}"
+             required
+             autocomplete="tel"
+             class="w-full rounded-md border border-charcoal/20 bg-white px-4 py-2.5 text-sm
+                    shadow-sm focus:border-secondary focus:ring-1 focus:ring-secondary
+                    outline-none transition-colors
+                    {% if errors is defined and errors.get('customer_phone') %}border-red-500 ring-1 ring-red-500{% endif %}"
+             aria-invalid="{% if errors is defined and errors.get('customer_phone') %}true{% else %}false{% endif %}"
+             {% if errors is defined and errors.get('customer_phone') %}aria-describedby="error-customer_phone"{% endif %}
+             placeholder="(636) 555-0100" />
+      {% if errors is defined and errors.get('customer_phone') %}
+        <p id="error-customer_phone" class="mt-1 text-sm" style="color: var(--color-error, #b91c1c);" role="alert">{{ errors.customer_phone }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Delivery Address -->
+    <div>
+      <label for="delivery_address" class="block text-sm font-medium text-charcoal mb-1">
+        Delivery Address
+      </label>
+      <textarea id="delivery_address" name="delivery_address"
+                rows="3" required
+                autocomplete="street-address"
+                class="w-full rounded-md border border-charcoal/20 bg-white px-4 py-2.5 text-sm
+                       shadow-sm focus:border-secondary focus:ring-1 focus:ring-secondary
+                       outline-none transition-colors resize-y
+                       {% if errors is defined and errors.get('delivery_address') %}border-red-500 ring-1 ring-red-500{% endif %}"
+                aria-invalid="{% if errors is defined and errors.get('delivery_address') %}true{% else %}false{% endif %}"
+                {% if errors is defined and errors.get('delivery_address') %}aria-describedby="error-delivery_address"{% endif %}
+                placeholder="123 Main St, Washington, MO 63090">{{ request.form.get('delivery_address', '') }}</textarea>
+      {% if errors is defined and errors.get('delivery_address') %}
+        <p id="error-delivery_address" class="mt-1 text-sm" style="color: var(--color-error, #b91c1c);" role="alert">{{ errors.delivery_address }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Number of Tandem Loads -->
+    <div>
+      <label for="quantity" class="block text-sm font-medium text-charcoal mb-1">
+        Number of Tandem Loads
+      </label>
+      <input type="number" id="quantity" name="quantity"
+             value="{{ request.form.get('quantity', '1') }}"
+             min="1" max="{{ product.inventory_count }}"
+             required
+             class="w-full rounded-md border border-charcoal/20 bg-white px-4 py-2.5 text-sm
+                    shadow-sm focus:border-secondary focus:ring-1 focus:ring-secondary
+                    outline-none transition-colors
+                    {% if errors is defined and errors.get('quantity') %}border-red-500 ring-1 ring-red-500{% endif %}"
+             aria-invalid="{% if errors is defined and errors.get('quantity') %}true{% else %}false{% endif %}"
+             aria-describedby="quantity-help{% if errors is defined and errors.get('quantity') %} error-quantity{% endif %}" />
+      <p class="mt-1 text-sm text-charcoal/60" id="quantity-help">
+        Maximum: {{ product.inventory_count }} load{{ "s" if product.inventory_count != 1 else "" }} available
+      </p>
+      {% if errors is defined and errors.get('quantity') %}
+        <p id="error-quantity" class="mt-1 text-sm" style="color: var(--color-error, #b91c1c);" role="alert">{{ errors.quantity }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Live price calculator -->
+    <div class="rounded-md bg-accent/10 border border-accent/30 px-5 py-4">
+      <p class="text-lg font-semibold text-primary" aria-live="polite" aria-atomic="true">
+        Estimated Total:
+        <span id="estimated-total">${{ "%.2f"|format(product.price_per_load) }}</span>
+      </p>
+    </div>
+
+    <!-- Submit -->
+    <div class="pt-2">
+      <button type="submit"
+              class="w-full sm:w-auto px-8 py-3 rounded-md text-cream font-semibold text-sm
+                     bg-secondary hover:bg-secondary/90 shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2
+                     transition-colors cursor-pointer">
+        Place Order
+      </button>
+    </div>
+  </form>
+  {% else %}
+  <p class="text-charcoal/70">
+    This product is currently out of stock. Please check back later or
+    <a href="{{ url_for('inventory.inventory') }}" class="text-secondary underline hover:text-secondary/80">
+      browse other products</a>.
+  </p>
+  {% endif %}
+</div>
+
+<!-- Live price calculator script -->
+<script>
+  (function () {
+    var pricePerLoad = {{ product.price_per_load }};
+    var quantityInput = document.getElementById('quantity');
+    var totalDisplay = document.getElementById('estimated-total');
+
+    if (!quantityInput || !totalDisplay) return;
+
+    function updateTotal() {
+      var qty = parseInt(quantityInput.value, 10);
+      if (isNaN(qty) || qty < 1) qty = 1;
+      var total = qty * pricePerLoad;
+      totalDisplay.textContent = '$' + total.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    quantityInput.addEventListener('input', updateTotal);
+    // Initialize on page load in case a value was pre-filled after validation error
+    updateTotal();
+  })();
+</script>
+
+<!-- Double-submit protection -->
+<script>
+  document.querySelector('form').addEventListener('submit', function() {
+    var btn = this.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Placing Order...';
+    btn.classList.add('opacity-75', 'cursor-not-allowed');
+  });
+</script>
+{% endblock %}

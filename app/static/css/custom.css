@@ -1,0 +1,79 @@
+/* ============================================================
+   Missouri Topsoil Co. -- Custom Properties & Overrides
+   ============================================================ */
+
+:root {
+  --color-primary: #5C4033;   /* warm brown   */
+  --color-secondary: #2D5A27; /* forest green */
+  --color-accent: #D4A843;    /* golden wheat */
+  --color-bg: #FAF6F1;        /* cream        */
+  --color-text: #2C2C2C;      /* dark charcoal */
+  --color-error: #b91c1c;     /* red-700       */
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* --- Seasonal banner ---------------------------------------------------- */
+.seasonal-banner {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+/* --- Service-area pill badges ------------------------------------------- */
+.pill-badge {
+  display: inline-block;
+  padding: 0.375rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid var(--color-accent);
+  color: var(--color-primary);
+  background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+}
+
+/* --- Soil-type badge ---------------------------------------------------- */
+.badge-screened {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  background-color: color-mix(in srgb, var(--color-secondary) 15%, transparent);
+  color: var(--color-secondary);
+}
+
+.badge-raw {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  color: var(--color-primary);
+}
+
+/* --- Flash messages ----------------------------------------------------- */
+.flash-success {
+  background-color: color-mix(in srgb, var(--color-secondary) 12%, transparent);
+  border-left: 4px solid var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.flash-error {
+  background-color: #fef2f2;
+  border-left: 4px solid #b91c1c;
+  color: #b91c1c;
+}
+
+.flash-info {
+  background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  border-left: 4px solid var(--color-accent);
+  color: var(--color-primary);
+}

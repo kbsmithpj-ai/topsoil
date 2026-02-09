@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}About Us -- Missouri Topsoil Co.{% endblock %}
+
+{% block content %}
+
+  <!-- ===== Hero Header ===== -->
+  <section class="relative overflow-hidden"
+           style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center relative z-10">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-cream leading-tight">
+        Our Missouri Roots
+      </h1>
+      <p class="mt-4 text-cream text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+        Generations of land stewardship in the Missouri River valley.
+      </p>
+    </div>
+    <div class="absolute inset-0 opacity-10"
+         style="background-image: url('data:image/svg+xml,<svg width=&quot;40&quot; height=&quot;40&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><circle cx=&quot;20&quot; cy=&quot;20&quot; r=&quot;1.5&quot; fill=&quot;white&quot;/></svg>');"></div>
+  </section>
+
+  <!-- ===== Story Sections ===== -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-16">
+
+    <!-- Family-run nursery -->
+    <section>
+      <h2 class="text-xl sm:text-2xl font-bold text-primary mb-4">
+        A Family-Run Nursery
+      </h2>
+      <div class="prose-like space-y-4 text-sm sm:text-base text-charcoal/80 leading-relaxed">
+        <p>
+          Nestled along the Missouri River valley near Washington, MO, our family has worked
+          this land for generations. What started as a small nursery operation has grown into a
+          trusted source for premium topsoil across Franklin and St. Charles counties.
+        </p>
+        <p>
+          We know this soil because we have lived on it, farmed it, and cared for it. The rich
+          alluvial deposits left by the Missouri River give our region some of the most fertile
+          earth in the Midwest, and we take pride in making that quality available to our
+          neighbors and the professionals who build our community's landscapes.
+        </p>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-charcoal/10" />
+
+    <!-- Conservation focus -->
+    <section>
+      <h2 class="text-xl sm:text-2xl font-bold text-secondary mb-4">
+        Committed to Conservation
+      </h2>
+      <div class="prose-like space-y-4 text-sm sm:text-base text-charcoal/80 leading-relaxed">
+        <p>
+          Sustainable soil practices are not just a business decision -- they are a responsibility
+          to the land that sustains us. We work closely with local conservation districts to
+          ensure our harvesting methods maintain the long-term health of the soil ecosystem.
+        </p>
+        <p>
+          From careful site management to responsible grading and reclamation, every step of our
+          process is designed to preserve the natural balance. We believe that the best topsoil
+          comes from land that is treated with respect, and we carry that philosophy into every
+          load we deliver.
+        </p>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-charcoal/10" />
+
+    <!-- Service commitment -->
+    <section>
+      <h2 class="text-xl sm:text-2xl font-bold text-primary mb-4">
+        Serving Our Community
+      </h2>
+      <div class="prose-like space-y-4 text-sm sm:text-base text-charcoal/80 leading-relaxed">
+        <p>
+          Whether you are a landscaper managing a large commercial project or a homeowner getting
+          your first garden bed ready, we treat every order with the same care and attention. Our
+          tandem-load delivery keeps things simple: you tell us where, and we bring the soil
+          directly to your site.
+        </p>
+        <p>
+          We serve Washington, MO and the surrounding region including Union, Pacific, St. Clair,
+          Villa Ridge, Augusta, and communities throughout the area. If you are not sure whether
+          we deliver to your location, give us a call -- we are always happy to help.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== Call to Action ===== -->
+  <section class="bg-white border-t border-charcoal/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 text-center">
+      <h2 class="text-xl sm:text-2xl font-bold text-primary">
+        Ready to get started?
+      </h2>
+      <p class="mt-2 text-charcoal/70 text-sm sm:text-base max-w-md mx-auto">
+        Browse our available topsoil products and place your order today.
+      </p>
+      <a href="{{ url_for('inventory.inventory') }}"
+         class="inline-block mt-6 px-8 py-3 rounded-lg font-semibold text-cream bg-secondary hover:brightness-110 transition-all focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 text-sm sm:text-base">
+        View Our Inventory
+      </a>
+    </div>
+  </section>
+
+{% endblock %}

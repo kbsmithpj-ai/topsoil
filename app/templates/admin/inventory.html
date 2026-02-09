@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Inventory -- Missouri Topsoil Co.{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  {% include "admin/_nav.html" %}
+
+  <h1 class="text-2xl font-bold mb-6" style="color: var(--color-primary);">Manage Inventory</h1>
+
+  {% if products %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% for product in products %}
+        <div class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-lg font-semibold mb-1" style="color: var(--color-primary);">
+            {{ product.name }}
+          </h2>
+          <p class="text-sm text-gray-500 mb-4">
+            Type: <span class="font-medium">{{ product.soil_type }}</span>
+          </p>
+
+          <form
+            method="POST"
+            action="{{ url_for('admin.update_inventory', product_id=product.id) }}"
+            class="space-y-4"
+          >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div>
+              <label
+                for="price-{{ product.id }}"
+                class="block text-sm font-medium mb-1"
+                style="color: var(--color-text);"
+              >
+                Price per Load ($)
+              </label>
+              <input
+                type="number"
+                id="price-{{ product.id }}"
+                name="price_per_load"
+                value="{{ '%.2f' | format(product.price_per_load) }}"
+                step="0.01"
+                min="0"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-sm"
+              />
+            </div>
+
+            <div>
+              <label
+                for="count-{{ product.id }}"
+                class="block text-sm font-medium mb-1"
+                style="color: var(--color-text);"
+              >
+                Inventory Count
+              </label>
+              <input
+                type="number"
+                id="count-{{ product.id }}"
+                name="inventory_count"
+                value="{{ product.inventory_count }}"
+                min="0"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-sm"
+              />
+            </div>
+
+            <button
+              type="submit"
+              aria-label="Update {{ product.name }}"
+              class="w-full py-2 rounded-md text-white font-medium text-sm transition-colors hover:opacity-90 focus-visible:opacity-90 transition-opacity"
+              style="background-color: var(--color-secondary);"
+            >
+              Update
+            </button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-500 text-sm">No products are set up yet. Please contact your system administrator to add products.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

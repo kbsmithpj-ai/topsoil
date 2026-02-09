@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Missouri Topsoil Co. -- Premium Topsoil for the Heart of Missouri{% endblock %}
+
+{% block content %}
+
+  <!-- ===== Hero Section ===== -->
+  <section class="relative overflow-hidden"
+           style="background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center relative z-10">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-cream leading-tight">
+        Premium Topsoil for the Heart of Missouri
+      </h1>
+      <p class="mt-4 text-cream text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+        Whether you are a landscaper building beautiful yards or a homeowner starting a new garden,
+        we deliver quality screened and raw topsoil by the tandem load -- right to your site.
+      </p>
+      <a href="{{ url_for('inventory.inventory') }}"
+         class="inline-block mt-8 px-8 py-3 rounded-lg font-semibold text-charcoal bg-accent hover:brightness-110 transition-all focus:outline-none focus:ring-2 focus:ring-cream focus:ring-offset-2 focus:ring-offset-secondary text-sm sm:text-base">
+        View Our Inventory
+      </a>
+    </div>
+    <!-- Decorative texture overlay -->
+    <div class="absolute inset-0 opacity-10"
+         style="background-image: url('data:image/svg+xml,<svg width=&quot;40&quot; height=&quot;40&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><circle cx=&quot;20&quot; cy=&quot;20&quot; r=&quot;1.5&quot; fill=&quot;white&quot;/></svg>');"></div>
+  </section>
+
+  <!-- ===== Seasonal Banner ===== -->
+  {% if settings and settings.banner_active and settings.banner_text %}
+  <div id="seasonal-banner" class="seasonal-banner">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center">
+      <p class="text-sm sm:text-base font-semibold">
+        {{ settings.banner_text }}
+      </p>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ===== Why Choose Us ===== -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+    <h2 class="text-2xl sm:text-3xl font-bold text-primary text-center">
+      Why Choose Us
+    </h2>
+    <p class="mt-2 text-center text-charcoal/70 text-sm sm:text-base max-w-xl mx-auto">
+      We make getting quality topsoil simple and reliable.
+    </p>
+
+    <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      <!-- Card 1 -->
+      <article class="bg-white rounded-xl shadow-sm border border-charcoal/10 p-6 sm:p-8 text-center hover:shadow-md transition-shadow">
+        <div class="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-4"
+             style="background-color: color-mix(in srgb, var(--color-secondary) 12%, transparent);">
+          <!-- Leaf icon -->
+          <svg class="w-7 h-7 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M12 21c0 0-8-4-8-11a8 8 0 0116 0c0 7-8 11-8 11z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-primary">Locally Sourced</h3>
+        <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">
+          Our topsoil comes from the rich Missouri River valley -- mineral-dense, dark, and naturally fertile soil from right here in Franklin County.
+        </p>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="bg-white rounded-xl shadow-sm border border-charcoal/10 p-6 sm:p-8 text-center hover:shadow-md transition-shadow">
+        <div class="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-4"
+             style="background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);">
+          <!-- Truck icon -->
+          <svg class="w-7 h-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z" />
+            <circle cx="5.5" cy="18.5" r="2.5" stroke-width="1.5" />
+            <circle cx="18.5" cy="18.5" r="2.5" stroke-width="1.5" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-primary">Tandem Load Delivery</h3>
+        <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">
+          We deliver directly to your site by the tandem truckload. No middlemen, no hassle -- just quality soil dropped where you need it.
+        </p>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="bg-white rounded-xl shadow-sm border border-charcoal/10 p-6 sm:p-8 text-center hover:shadow-md transition-shadow">
+        <div class="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-4"
+             style="background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);">
+          <!-- Layers icon -->
+          <svg class="w-7 h-7 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M2 17l10 5 10-5" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M2 12l10 5 10-5" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-primary">Screened &amp; Raw Options</h3>
+        <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">
+          From premium pulverized and screened topsoil for gardens to raw fill for grading projects -- we have the right soil for every need.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== Service Areas ===== -->
+  <section class="bg-white border-t border-charcoal/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-primary">
+        Our Service Area
+      </h2>
+      <p class="mt-2 text-charcoal/70 text-sm sm:text-base max-w-lg mx-auto">
+        We deliver tandem loads across Franklin and St. Charles counties and beyond.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3" role="list" aria-label="Service area towns">
+        {% set towns = [
+          "Washington", "Labadie", "Villa Ridge", "St. Clair", "Union",
+          "Marthasville", "Augusta", "New Melle", "Defiance",
+          "Wright City", "Warrenton", "Pacific"
+        ] %}
+        {% for town in towns %}
+          <span class="pill-badge" role="listitem">{{ town }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

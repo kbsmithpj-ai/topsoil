@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Missouri Topsoil Co.{% endblock %}</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:   'var(--color-primary)',
+            secondary: 'var(--color-secondary)',
+            accent:    'var(--color-accent)',
+            cream:     'var(--color-bg)',
+            charcoal:  'var(--color-text)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Custom CSS (color properties + overrides) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />
+</head>
+<body class="flex flex-col min-h-screen font-sans">
+
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-accent focus:text-charcoal focus:rounded focus:font-semibold">
+    Skip to main content
+  </a>
+
+  <!-- ===== Navigation ===== -->
+  <nav class="sticky top-0 z-50 bg-primary shadow-md" role="navigation" aria-label="Main navigation">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Brand -->
+        <a href="{{ url_for('main.home') }}" class="text-cream font-bold text-xl tracking-tight whitespace-nowrap">
+          Missouri Topsoil Co.
+        </a>
+
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="{{ url_for('main.home') }}"
+             class="text-cream/90 hover:text-accent transition-colors text-sm font-medium focus:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary rounded {% if request.endpoint == 'main.home' %}text-accent underline underline-offset-4{% endif %}">
+            Home
+          </a>
+          <a href="{{ url_for('inventory.inventory') }}"
+             class="text-cream/90 hover:text-accent transition-colors text-sm font-medium focus:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary rounded {% if request.endpoint == 'inventory.inventory' %}text-accent underline underline-offset-4{% endif %}">
+            Inventory
+          </a>
+          <a href="{{ url_for('main.about') }}"
+             class="text-cream/90 hover:text-accent transition-colors text-sm font-medium focus:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary rounded {% if request.endpoint == 'main.about' %}text-accent underline underline-offset-4{% endif %}">
+            About
+          </a>
+          <a href="tel:+16365550100" class="hidden lg:inline-flex items-center text-sm text-cream/90 hover:text-accent transition-colors">
+            (636) 555-0100
+          </a>
+        </div>
+
+        <!-- Mobile hamburger button -->
+        <button id="mobile-menu-btn"
+                type="button"
+                class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-cream hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
+                aria-label="Open navigation menu">
+          <!-- Hamburger icon -->
+          <svg id="hamburger-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close icon (hidden by default) -->
+          <svg id="close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu (hidden by default) -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-cream/20">
+      <div class="px-4 py-3 space-y-2">
+        <a href="{{ url_for('main.home') }}"
+           class="block px-3 py-2 rounded-md text-cream hover:bg-secondary transition-colors text-sm font-medium focus:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary {% if request.endpoint == 'main.home' %}text-accent underline underline-offset-4{% endif %}">
+          Home
+        </a>
+        <a href="{{ url_for('inventory.inventory') }}"
+           class="block px-3 py-2 rounded-md text-cream hover:bg-secondary transition-colors text-sm font-medium focus:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary {% if request.endpoint == 'inventory.inventory' %}text-accent underline underline-offset-4{% endif %}">
+          Inventory
+        </a>
+        <a href="{{ url_for('main.about') }}"
+           class="block px-3 py-2 rounded-md text-cream hover:bg-secondary transition-colors text-sm font-medium focus:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary {% if request.endpoint == 'main.about' %}text-accent underline underline-offset-4{% endif %}">
+          About
+        </a>
+        <a href="tel:+16365550100" class="block px-3 py-2 rounded-md text-base font-medium text-cream/90 hover:text-accent transition-colors">
+          Call (636) 555-0100
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Flash Messages ===== -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 space-y-2">
+        {% for category, message in messages %}
+          <div class="px-4 py-3 rounded-md text-sm
+            {% if category == 'success' %}flash-success
+            {% elif category == 'error' %}flash-error
+            {% else %}flash-info{% endif %}"
+            role="{% if category == 'error' %}alert{% else %}status{% endif %}"
+            aria-live="{% if category == 'error' %}assertive{% else %}polite{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- ===== Page Content ===== -->
+  <main id="main-content" class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="bg-primary text-cream mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Business info -->
+        <div>
+          <h3 class="font-bold text-lg mb-2">Missouri Topsoil Co.</h3>
+          <p class="text-cream/80 text-sm leading-relaxed">
+            Quality topsoil and fill products for landscapers, contractors, and homeowners across the Missouri River valley.
+          </p>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h3 class="font-bold text-lg mb-2">Contact Us</h3>
+          <p class="text-cream/80 text-sm">
+            <a href="tel:+16365550100" class="block hover:text-accent transition-colors">(636) 555-0100</a>
+            <span class="block mt-1">Washington, MO</span>
+          </p>
+          <p class="mt-1"><a href="mailto:info@missouritopsoil.com" class="text-cream/80 text-sm hover:text-accent transition-colors">info@missouritopsoil.com</a></p>
+          <p class="mt-2 text-cream/80 text-sm">Mon-Fri 7am-5pm | Sat 8am-12pm</p>
+        </div>
+
+        <!-- Service area -->
+        <div>
+          <h3 class="font-bold text-lg mb-2">Service Area</h3>
+          <p class="text-cream/80 text-sm leading-relaxed">
+            Serving Washington, MO and surrounding areas including Union, Pacific, St. Clair, and communities throughout Franklin and St. Charles counties.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-cream/20 text-center text-cream/80 text-xs">
+        &copy; {{ current_year }} Missouri Topsoil Co. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile menu toggle script -->
+  <script>
+    (function () {
+      var btn = document.getElementById('mobile-menu-btn');
+      var menu = document.getElementById('mobile-menu');
+      var hamburger = document.getElementById('hamburger-icon');
+      var closeIcon = document.getElementById('close-icon');
+
+      btn.addEventListener('click', function () {
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        menu.classList.toggle('hidden');
+        hamburger.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+class Config:
+    """Application configuration loaded from environment variables."""
+
+    SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-dev-key")
+
+    # Database
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "DATABASE_URL",
+        "sqlite:///topsoil.db",
+    )
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Admin credentials
+    ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
+    ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "changeme")
+
+    # Manager notification recipient
+    MANAGER_EMAIL = os.environ.get("MANAGER_EMAIL")
+
+    # Flask-Mail settings
+    MAIL_SERVER = os.environ.get("MAIL_SERVER", "smtp.gmail.com")
+    MAIL_PORT = int(os.environ.get("MAIL_PORT", 587))
+    MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS", "true").lower() == "true"
+    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+    MAIL_DEFAULT_SENDER = os.environ.get("MAIL_DEFAULT_SENDER", "noreply@nursery.com")
