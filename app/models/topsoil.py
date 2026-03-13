@@ -12,7 +12,6 @@ class Topsoil(db.Model):
     price_per_load = db.Column(db.Float, nullable=False)
     inventory_count = db.Column(db.Integer, nullable=False, default=0)
     description = db.Column(db.Text)
-    image_url = db.Column(db.String(255))
 
     orders = db.relationship("Order", back_populates="topsoil", lazy="select")
 
