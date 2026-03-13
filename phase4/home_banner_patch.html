@@ -1,0 +1,14 @@
+<!-- Replace hardcoded banner in home.html with: -->
+<!-- {% if settings and settings.banner_active and settings.banner_text %} -->
+<!-- <div class="seasonal-banner text-center py-3 px-4 text-sm font-medium">{{ settings.banner_text }}</div> -->
+<!-- {% endif %} -->
+
+<!-- And in app/routes/main.py, update the home() route to pass the settings object: -->
+<!--
+from app.models.site_settings import SiteSettings
+
+@main_bp.route("/")
+def home():
+    settings = SiteSettings.query.first()
+    return render_template("home.html", settings=settings)
+-->
